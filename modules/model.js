@@ -5,14 +5,14 @@ canvas.className = "canvas";
 canvas.style.backgroundColor = "#050505";
 canvas.style.borderRadius = "7px"
 canvas.style.width = "500px";
-canvas.style.height = "250px";
+canvas.style.height = "300px";
 canvas.style.fontFamily = "sans-serif";
 canvas.style.fontSize = "24px";
 canvas.style.display = "flex";
 canvas.style.flexDirection = "column";
 canvas.style.justifyContent = "center";
 canvas.style.alignItems = "center";
-canvas.style.gap = "24px";
+canvas.style.gap = "12px";
 
 
 // Digit display element
@@ -28,6 +28,31 @@ display.style.fontSize = "28px";
 display.style.fontFamily = "monospace";
 display.style.textAlign = "right";
 display.textContent = "_";
+
+const sub = document.createElement("div");
+sub.className = "sub";
+sub.style.display = "flex";
+sub.style.justifyContent = "space-between";
+sub.style.width = "95%";
+
+const action = document.createElement("div");
+action.className = "action";
+//action.style.width = "10%";
+action.style.height = "32px";
+action.style.padding = "0px 10px";
+action.style.color = "white";
+action.style.fontSize = "18px";
+action.style.fontFamily = "monospace";
+
+
+const subDisplay = document.createElement("div");
+//subDisplay.style.width = "85%";
+subDisplay.style.height = "32px";
+subDisplay.style.padding = "0px 10px";
+subDisplay.style.color = "white";
+subDisplay.style.fontSize = "18px";
+subDisplay.style.fontFamily = "monospace";
+subDisplay.style.textAlign = "right";
 
 // A container for the button rows
 const buttons = document.createElement("div");
@@ -56,7 +81,7 @@ clearBtn.textContent = "c";
     el.style.border = "solid 3px white";
     el.style.borderRadius = "50px";
     el.style.width = "100px";
-    el.style.height = "48px";
+    el.style.height = "52px";
     el.style.color = "whitesmoke";
     el.style.fontFamily = "Helvetica";
     el.style.fontSize = "24px";
@@ -87,7 +112,10 @@ enterBtn.style.backgroundColor = "#f7be06";
 
 buttons.appendChild(btnRow1);
 buttons.appendChild(btnRow2);
+sub.appendChild(action);
+sub.appendChild(subDisplay);
 canvas.appendChild(display);
+canvas.appendChild(sub);
 canvas.appendChild(buttons);
 
 
@@ -102,5 +130,5 @@ multBtn.setAttribute("id", "multBtn");
 divideBtn.setAttribute("id", "divideBtn");
 
 
-export {canvas, display, plusBtn, minusBtn, multBtn, divideBtn, enterBtn, clearBtn, zeroBtn, oneBtn };
+export {canvas, display, subDisplay, action, plusBtn, minusBtn, multBtn, divideBtn, enterBtn, clearBtn, zeroBtn, oneBtn };
 
