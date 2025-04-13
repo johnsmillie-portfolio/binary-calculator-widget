@@ -4,7 +4,7 @@ const canvas = document.createElement("div");
 canvas.className = "canvas";
 canvas.style.backgroundColor = "#050505";
 canvas.style.borderRadius = "7px"
-canvas.style.width = "500px";
+canvas.style.width = "550px";
 canvas.style.height = "300px";
 canvas.style.fontFamily = "sans-serif";
 canvas.style.fontSize = "24px";
@@ -13,6 +13,7 @@ canvas.style.flexDirection = "column";
 canvas.style.justifyContent = "center";
 canvas.style.alignItems = "center";
 canvas.style.gap = "12px";
+canvas.style.boxShadow = "4px 4px 10px 0 rgba(0, 0, 0, 0.25)";
 
 
 // Digit display element
@@ -24,10 +25,9 @@ display.style.width = "90%";
 display.style.height = "48px";
 display.style.padding = "10px 10px 0px 10px";
 display.style.color = "whitesmoke";
-display.style.fontSize = "28px";
+display.style.fontSize = "24px";
 display.style.fontFamily = "monospace";
 display.style.textAlign = "right";
-display.textContent = "_";
 
 const sub = document.createElement("div");
 sub.className = "sub";
@@ -37,7 +37,6 @@ sub.style.width = "95%";
 
 const action = document.createElement("div");
 action.className = "action";
-//action.style.width = "10%";
 action.style.height = "32px";
 action.style.padding = "0px 10px";
 action.style.color = "white";
@@ -46,7 +45,6 @@ action.style.fontFamily = "monospace";
 
 
 const subDisplay = document.createElement("div");
-//subDisplay.style.width = "85%";
 subDisplay.style.height = "32px";
 subDisplay.style.padding = "0px 10px";
 subDisplay.style.color = "white";

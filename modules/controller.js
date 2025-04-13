@@ -1,7 +1,8 @@
 import {canvas, display, subDisplay, action, plusBtn, minusBtn, multBtn, divideBtn, enterBtn, clearBtn, zeroBtn, oneBtn} from "./model.js";
-
+import { operate } from "./operations.js";
 const MAX = 32;
-let displayString = display.textContent;
+
+let displayString = "";
 let subDisplayString = "";
 let actionString = "";
 
@@ -30,7 +31,7 @@ multBtn.addEventListener("click", () => {
     buttonHelper("x");
 });
 divideBtn.addEventListener("click", () => {
-    buttonHelper("\u00F7");
+    buttonHelper("\u00F7"); // divide
 });
 
 
@@ -44,41 +45,26 @@ function buttonHelper(button){
             display.textContent = displayString += button;
             break;
         case "clear":
-            display.textContent = displayString = "_";
+            display.textContent = displayString = "";
             subDisplay.textContent = subDisplayString = "";
             action.textContent = actionString = "";
             break;
         case "enter":
-            if(!actionString || !subDisplayString || displayString === "_"){return;}
-            const primary = Number.parseInt(subDisplayString, 2);
-            const secondary = Number.parseInt(displayString.slice(1), 2);
-            display.textContent = displayString = operate(primary, secondary).toString(2);
+            if(!actionString || !subDisplayString || !displayString){return;}
+            // operate() takes binary string representations and returns binary string representation
+            // 2's complement is accounted for. 
+            display.textContent = displayString = operate(subDisplayString, displayString, actionString); 
             action.textContent = actionString = subDisplay.textContent = subDisplayString = "";
             break;
         default:
-            if(displayString === "_"){return;}
-            if(displayString.charAt(0) === "_"){
-                displayString = displayString.slice(1);
-            }
+            if(!displayString){return;}
             subDisplay.textContent  = subDisplayString = displayString;
             action.textContent = actionString = button;
-            display.textContent = displayString = "_";
+            display.textContent = displayString = "";
            
     }
 
-    function operate(primary, secondary){
-    
-        switch(actionString){
-            case "+":
-                return primary + secondary;
-            case "-":
-                return primary - secondary;
-            case "x":
-                return primary * secondary;
-            case "\u00F7":
-                return primary / secondary;
-        }
-    }
+   
 
 }
 

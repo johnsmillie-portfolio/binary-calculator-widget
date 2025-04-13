@@ -1,6 +1,39 @@
 
+body{
+    background-color: rgb(31, 30, 30);
+    margin: 0px;   
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
+    color: white;
+}
 .main{
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 500px;
+    min-width: 800px;
+}
+
+.hero{
+    background-image: url("./img/hero.jpg");
+    background-size: contain;
+    padding: 25px 100px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+}
+
+h1{
+    text-align: center;
+    padding: 15px;
+    margin: auto;
+    font-family: monospace;
+    font-size: 52px;
+    color: rgb(152, 250, 6);
+    
+}
+p{
+    color: whitesmoke;
+}
+.about{
+    padding: 10px 100px;
 }
