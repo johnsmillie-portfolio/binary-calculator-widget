@@ -1,8 +1,9 @@
-export function operate(primary, secondary, actionString){
+function operate(primary, secondary, actionString){
 
     let result = 0;
-    const s = binaryyStringToNumber(secondary);
-    const p = binaryyStringToNumber(primary);
+    const s = binaryStringToNumber(secondary);
+    const p = binaryStringToNumber(primary);
+    const mask = 0xffffffff;
     switch(actionString){
         case "+":
             result = p + s;
@@ -16,14 +17,14 @@ export function operate(primary, secondary, actionString){
         case "\u00F7":
             result = Math.floor(p / s).toFixed(0);
     }
-
+    result &= mask; 
     return numToBinaryString(result);
 }
 
-function binaryyStringToNumber(num){
-    if(num.startsWith("0")){
+function binaryStringToNumber(num){
+    if(num.startsWith("0") || num.length === 1){
         // positive number
-        num = num.slice(1);
+        //num = num.slice(1);
         return Number.parseInt(num,2);
     }
     else{
@@ -33,14 +34,16 @@ function binaryyStringToNumber(num){
 }
 
 function numToBinaryString(num){
-    if(num >= 0){return "0" + num.toString(2);} // psitive number
-    else{
-        const exp = 2**31;
-        return (exp + num).toString(2);
-    }
+    if(num >= 0 && num.toString(2).length < 32){return "0" + num.toString(2);} // positive number
+    if(num >= 0 && num.toString(2).length >= 32){return num.toString(2);}
+    if(num === -1){return "11"}
+    const bits = Math.ceil((Math.log2(-num)))+1;
+    const exp = 2**bits;
+    return  (exp + num).toString(2);
+    
 
 }
-
+// num is a string with a leading 1
 function calculateNegativeNumber(num){
     let neg = 2 ** (num.length-1);                  // calc 2^(leading 1 bit)  
     num = num.slice(1);                         // remove leading 1
@@ -48,3 +51,4 @@ function calculateNegativeNumber(num){
 }
 
 
+export {operate, binaryStringToNumber, numToBinaryString, calculateNegativeNumber}

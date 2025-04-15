@@ -1,0 +1,16 @@
+{
+  "name": "binary-calculator",
+  "version": "1.0.0",
+  "description": "Hakerrank Challenge for the 10 Days of JavaScript.",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
