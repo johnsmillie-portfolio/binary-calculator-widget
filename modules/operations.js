@@ -34,13 +34,13 @@ function binaryStringToNumber(num){
 }
 
 function numToBinaryString(num){
-    if(num >= 0){return "0" + num.toString(2);} // psitive number
-    else{ 
-        
-        const bits = Math.ceil((Math.log2(-num)))+1;
-        const exp = 2**bits;
-        return  (exp + num).toString(2);
-    }
+    if(num >= 0 && num.toString(2).length < 32){return "0" + num.toString(2);} // positive number
+    if(num >= 0 && num.toString(2).length >= 32){return num.toString(2);}
+    if(num === -1){return "11"}
+    const bits = Math.ceil((Math.log2(-num)))+1;
+    const exp = 2**bits;
+    return  (exp + num).toString(2);
+    
 
 }
 // num is a string with a leading 1

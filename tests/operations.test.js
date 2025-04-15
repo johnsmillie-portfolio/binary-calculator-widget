@@ -11,8 +11,8 @@ describe("calculateNegativeNumbers", () => {
   test("11", () => {
     expect(calculateNegativeNumber("11")).toBe(-1)
   });
-  test("11111111111111111111111111111111", () => {
-    expect(calculateNegativeNumber("11111111111111111111111111111111")).toBe(-1)
+  test("1111111111111111", () => {
+    expect(calculateNegativeNumber("1111111111111111")).toBe(-1)
   });
   test("10", () => {
     expect(calculateNegativeNumber("10")).toBe(-2)
@@ -50,14 +50,20 @@ describe("binaryStringToNumber", () => {
     test("01101011010010110", () => {
       expect(binaryStringToNumber("01101011010010110")).toBe(54934);
     });
-    test("01111111111111111111111111111111", () => {
+    test("MaxInt", () => {
       expect(binaryStringToNumber("01111111111111111111111111111111")).toBe(2147483647);
     });
-    test("10000000000000000000000000000000", () => {
+    test("MinInt", () => {
       expect(binaryStringToNumber("10000000000000000000000000000000")).toBe(-2147483648);
+    });
+    test("MaxUnsignedInt", () => {
+      expect(binaryStringToNumber("11111111111111111111111111111111")).toBe(-1);
     });  
+    test("MaxUnsignedInt-1", () => {
+      expect(binaryStringToNumber("11111111111111111111111111111110")).toBe(-2);
+    }); 
 })
-
+// 11111111111111111111111111111111
 describe("numToBinaryString", () => {
   test("0", () => {
     expect(numToBinaryString(0)).toBe("00");
@@ -66,7 +72,7 @@ describe("numToBinaryString", () => {
     expect(numToBinaryString(1)).toBe("01");
   });
   test("-1", () => {
-    expect(numToBinaryString(-1)).toBe("1");
+    expect(numToBinaryString(-1)).toBe("11");
   });
   test("2", () => {
     expect(numToBinaryString(2)).toBe("010");
@@ -98,6 +104,9 @@ describe("numToBinaryString", () => {
   test("-2147483648", () => {
     expect(numToBinaryString(-2147483648)).toBe("10000000000000000000000000000000");
   });
+  test("4294967294", () => {
+    expect(numToBinaryString(4294967294)).toBe("11111111111111111111111111111110");
+  });
 })
 
 describe("operate", () => {
@@ -110,14 +119,17 @@ describe("operate", () => {
   test("01101 + 101 = 01010", () => {
     expect(operate("01101", "101", "+")).toBe("01010")
   });
-  test("01111111111111111111111111111111 + 01 = 10000000000000000000000000000000", () => {
+  test("MaxInt + 01 = MinInt", () => {
     expect(operate("01111111111111111111111111111111", "01", "+")).toBe("10000000000000000000000000000000")
   });
-  test("01111111111111111111111111111111 + 010 = 10000000000000000000000000000000", () => {
+  test("MaxInt + 010 = MinInt+1", () => {
     expect(operate("01111111111111111111111111111111", "010", "+")).toBe("10000000000000000000000000000001")
   });
-  test("10000000000000000000000000000000 + 011 = 10000000000000000000000000000011", () => {
+  test("MinInt + 011 = MinInt+3", () => {
     expect(operate("10000000000000000000000000000000", "011", "+")).toBe("10000000000000000000000000000011")
+  });
+  test("MinInt + 11 = MaxInt", () => {
+    expect(operate("10000000000000000000000000000000", "11", "+")).toBe("01111111111111111111111111111111")
   });
 
   test("010 - 01 = 01", () => {
@@ -129,48 +141,54 @@ describe("operate", () => {
   test("01010 - 0110 = 0100", () => {
     expect(operate("01010", "0110", "-")).toBe("0100")
   });
-  test("010 + 01 = 011", () => {
-    //expect(operate("010", "01", "-")).toBe("011")
+  test("01 - 010 = 11", () => {
+    expect(operate("01", "010", "-")).toBe("11")
   });
-  test("010 + 01 = 011", () => {
-    //expect(operate("010", "01", "-")).toBe("011")
+  test("MaxInt - 01 = MaxInt-1", () => {
+    expect(operate("01111111111111111111111111111111", "01", "-")).toBe("01111111111111111111111111111110")
   });
-
-
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
-  });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
-  });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
-  });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
-  });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
-  });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
+  test("MinInt - 01 = MaxInt", () => {
+    expect(operate("10000000000000000000000000000000", "01", "-")).toBe("01111111111111111111111111111111")
   });
 
 
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
+  test("010 x 01 = 010", () => {
+    expect(operate("010", "01", "x")).toBe("010")
   });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
+  test("11 x 01 = 11", () => {
+    expect(operate("11", "01", "x")).toBe("11")
   });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
+  test("010 x 010 = 0100", () => {
+    expect(operate("010", "010", "x")).toBe("0100")
   });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
+  test("010 x MaxInt = MaxUnsignedInt-1", () => {
+    expect(operate("010", "01111111111111111111111111111111", "x")).toBe("10")
   });
-  test("010 + 01 = 011", () => {
-    expect(operate("010", "01", "+")).toBe("011")
+  test("MaxInt x 11 = MinInt+1", () => {
+    expect(operate("01111111111111111111111111111111", "11", "x")).toBe("10000000000000000000000000000001")
+  });
+  test("MinInt x 11 = MinInt", () => {
+    expect(operate("10000000000000000000000000000000", "11", "x")).toBe("10000000000000000000000000000000")
+  });
+
+
+  test("010 / 01 = 010", () => {
+    expect(operate("010", "01", "\u00F7")).toBe("010")
+  });
+  test("010 / 11 = 10", () => {
+    expect(operate("010", "11", "\u00F7")).toBe("10")
+  });
+  test("01001 / 011 = 011", () => {
+    expect(operate("01001", "011", "\u00F7")).toBe("011")
+  });
+  test("01001 / 010 = 0100", () => {
+    expect(operate("01001", "010", "\u00F7")).toBe("0100")
+  });
+  test("MaxInt / MinInt = 11", () => {
+    expect(operate("01111111111111111111111111111111", "10000000000000000000000000000000", "\u00F7")).toBe("11")
+  });
+  test("MinInt / MaxInt = 11", () => {
+    expect(operate("10000000000000000000000000000000", "01111111111111111111111111111111", "\u00F7")).toBe("10")
   });
 })
 
