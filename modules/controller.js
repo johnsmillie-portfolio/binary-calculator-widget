@@ -1,36 +1,35 @@
-import {canvas, display, subDisplay, action, plusBtn, minusBtn, multBtn, divideBtn, enterBtn, clearBtn, zeroBtn, oneBtn} from "./model.js";
-import { operate } from "./operations.js";
+import {Model} from "./Model.js";
+import { Operations } from "./Operations.js";
 const MAX = 32;
 
-let displayString = "";
-let subDisplayString = "";
-let actionString = "";
+const operations = new Operations();
+const model = new Model();
 
 
 // The display always resets to "_"  --> this character represents the absence of values
 // in the displayString
-clearBtn.addEventListener("click", () => {
+model.clearBtn.addEventListener("click", () => {
    buttonHelper("clear");
 })
-enterBtn.addEventListener("click", () => {
+model.enterBtn.addEventListener("click", () => {
     buttonHelper("enter");
 });
-zeroBtn.addEventListener("click", () => {
+model.zeroBtn.addEventListener("click", () => {
     buttonHelper("0");
 });
-oneBtn.addEventListener("click", () => {
+model.oneBtn.addEventListener("click", () => {
     buttonHelper("1");
 });
-plusBtn.addEventListener("click", () => {
+model.plusBtn.addEventListener("click", () => {
     buttonHelper("+");
 });
-minusBtn.addEventListener("click", () => {
+model.minusBtn.addEventListener("click", () => {
     buttonHelper("-");
 });
-multBtn.addEventListener("click", () => {
+model.multBtn.addEventListener("click", () => {
     buttonHelper("x");
 });
-divideBtn.addEventListener("click", () => {
+model.divideBtn.addEventListener("click", () => {
     buttonHelper("\u00F7"); // divide
 });
 
@@ -41,26 +40,12 @@ function buttonHelper(button){
     switch(button){
         case "0":
         case "1":
-            if(displayString.length === MAX){return}
-            display.textContent = displayString += button;
-            break;
+             break;
         case "clear":
-            display.textContent = displayString = "";
-            subDisplay.textContent = subDisplayString = "";
-            action.textContent = actionString = "";
-            break;
+              break;
         case "enter":
-            if(!actionString || !subDisplayString || !displayString){return;}
-            // operate() takes binary string representations and returns binary string representation
-            // 2's complement is accounted for. 
-            display.textContent = displayString = operate(subDisplayString, displayString, actionString); 
-            action.textContent = actionString = subDisplay.textContent = subDisplayString = "";
-            break;
+           break;
         default:
-            if(!displayString){return;}
-            subDisplay.textContent  = subDisplayString = displayString;
-            action.textContent = actionString = button;
-            display.textContent = displayString = "";
            
     }
 
@@ -69,4 +54,4 @@ function buttonHelper(button){
 }
 
 
-export {canvas}
+export {model}
