@@ -1,8 +1,7 @@
  
 export class Model{
     constructor(){
-        this.actionSet = false;
-
+        
         this.canvasBackgroundDark = "#050505";
         this.displayBackgroundDark = "#4e4e4e";
         this.operandBackgroundDark = "#313131";
@@ -10,7 +9,7 @@ export class Model{
         this.operandActiveBackgroundDark = "#eeeeee";
         this.borderColorDark = "white";
         this.fontColorDark = "whitesmoke";
-        
+        this.enterColor = "#e1a106"
         // this.canvasBackgroundLight = "#050505";
         // this.displayBackgroundLight = "#4e4e4e";
         // this.operandBackgroundLight = "#313131";
@@ -26,15 +25,15 @@ export class Model{
         this.canvas.style.cssText = `
             background-color: ${this.canvasBackgroundDark};
             border-radius: 7px;
-            width: 475px;
-            height: 650px;
+            width: 400px;
+            height: 550px;
             font-family: sans-serif;
-            font-size: 24px;
+            font-size: 16px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-evenly;
             align-items: center;
-            gap: 12px;
+            
             boxShadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.25);
             `;
    
@@ -45,39 +44,53 @@ export class Model{
     this.bitsSelectorContainer.style.cssText = `
         display: flex;
         justify-content: space-evenly;
-        width: 100%
+        width: 90%;
+           font-size: 16px;
     `;
     // Label for bits selection
     this.bitsLabel = document.createElement("div");
     this.bitsLabel.textContent = "Bits:";
-    this.bitsLabel.style.cssText = `
-         font-size: 16px;
-     `;
+
     this.bitsSelectorContainer.appendChild(this.bitsLabel);
 
     // Bits selector
     let x = 2;
-    const list2 = ["","","","",];
+    const list2 = ["4","8","16","32",];
+
+    [this.label1, this.label2, this.label3, this.label4] = list2.map((num) => {
+        let el = document.createElement("label");
+        el.className = "radioLabel";
+        el.textContent = num;
+        return el;
+    });
+
     [this.radio1, this.radio2, this.radio3, this.radio4] = list2.map(() => {
         let el = document.createElement("input");
         el.type = "radio";
         el.className = "bits";
         el.id = x*=2;
         el.value = x;
-        
-        this.bitsSelectorContainer.appendChild(el);
+        el.addEventListener("click", () => {
+            this.toggleBitsSelector(el);
+        })
         return el;
-    })
+    });
 
-    // TODO: Label the radio buttons and set the initial active button
+    // variables for radio button behavior
+    this.radio1.checked = true;
+    this.bitsSet = this.radio1;
 
+    // Model building sequence
+    [this.label1, this.radio1, this.label2, this.radio2, this.label3, this.radio3, this.label4, this.radio4].forEach((el) => {
+        this.bitsSelectorContainer.appendChild(el);
+    });
 
     // Diplays container
         this.displayContainer = document.createElement("div");
         this.displayContainer.className = "displayContainer";
         this.displayContainer.style.cssText = `
-            width: 100%;
-        `;
+            width: 90%;
+        `; 
 
     // Primary digit display element
         this.primaryDisplay = document.createElement("div");
@@ -85,31 +98,17 @@ export class Model{
         this.primaryDisplay.style.cssText = `
             background-color: ${this.displayBackgroundDark};
             border-radius: 3px;
-            width: 90%;
-            height: 48px;
-            padding: 10px 10px 0px 10px;
+            height: 40px;
+            display: flex;
             color: whitesmoke;
             font-size: 24px;
             font-family: monospace;
-            text-align: right;
+            align-items: center;
+            justify-content: right;
             margin: auto;
+            padding: 5px;
             `;
 
-    // Secondary digit display element 
-        this.secondaryDisplay = document.createElement("div");
-        this.secondaryDisplay.className = "secondaryDisplay";
-        this.secondaryDisplay.style.cssText = `
-            background-color: ${this.displayBackgroundDark};
-            border-radius: 3px;
-            width: 90%;
-            height: 48px;
-            padding: 10px 10px 0px 10px;
-            color: whitesmoke;
-            font-size: 24px;
-            font-family: monospace;
-            text-align: right;
-            margin: 10px auto;
-            `;
 
 
     // Container for the button rows
@@ -121,18 +120,20 @@ export class Model{
 
 
     // create the html button elements for the widget
-    const list =  ["this.plusBtn", "this.minusBtn", "this.multBtn", "this.divideBtn", "this.clearBtn", "this.enterBtn", "this.zeroBtn", "this.oneBtn"];
-    [this.plusBtn, this.minusBtn, this.multBtn, this.divideBtn, this.clearBtn, this.enterBtn, this.zeroBtn, this.oneBtn] = list.map(() => {
+    const list =  ["operation", "operation", "operation", "operation", "clear", "operation", "operand", "operand"];
+    [this.plusBtn, this.minusBtn, this.multBtn, this.divideBtn, this.clearBtn, this.enterBtn, this.zeroBtn, this.oneBtn] = list.map((el) => {
             let x = document.createElement("button");
+            x.className = "actionButton";
+            x.id = el;
             x.style.cssText = `
                  border: solid 2px lightgrey;
                  border-radius: 12px;
-                 width: 100px;
-                 height: 52px;
+                 width: 55px;
+                 height: 55px;
                  color: whitesmoke;
                  font-family: Helvetica;
                  font-size: 24px;
-                 margin: 4px;
+                 margin: 6px 12px;
                  cursor: pointer;
                  `;
             return x;
@@ -160,8 +161,8 @@ export class Model{
             el.style.backgroundColor = this.digitsBackgroundDark;
             el.style.fontSize = "20px";
         })
-        this.clearBtn.style.backgroundColor = "#37D912";
-        this.enterBtn.style.backgroundColor = "#f7be06";
+        this.clearBtn.style.backgroundColor = "#37b612";
+        this.enterBtn.style.backgroundColor = "#e1a106";
 
 
         // Build the tree for the widget
@@ -173,17 +174,24 @@ export class Model{
         this.conversionContainer = document.createElement("div");
         this.conversionContainer.className = "conversionContainer";
         this.conversionContainer.style.cssText = `
-            width: 100%;
+            width: 90%;
         `; 
-        // TODO: labels for the conversions
-
+       
+        this.binaryDisplayLabel = document.createElement("div");
+        this.binaryDisplayLabel.className = ("conversionDisplayLabel");
         this.binaryDisplay = document.createElement("div");
         this.binaryDisplay.className = "binaryDisplay";
+        this.binaryDisplayLabel.textContent = "Binary:";
         
-
+        this.signedDisplayLabel = document.createElement("div");
+        this.signedDisplayLabel.className = ("conversionDisplayLabel");
+        this.signedDisplayLabel.textContent = "Signed Base-10:";
         this.signedDisplay = document.createElement("div");
         this.signedDisplay.className = "signedDisplay";
 
+        this.unsignedDisplayLabel = document.createElement("div");
+        this.unsignedDisplayLabel.className = ("conversionDisplayLabel");
+        this.unsignedDisplayLabel.textContent = "Unsigned Base-10:";
         this.unsignedDisplay = document.createElement("div");
         this.unsignedDisplay.className = "unsignedDisplay";
 
@@ -191,21 +199,20 @@ export class Model{
             el.style.cssText = `
                 background-color: ${this.displayBackgroundDark};
                 border-radius: 3px;
-                width: 90%;
-                height: 48px;
-                padding: 10px 10px 0px 10px;
+                height: 40px;
+                padding: 10px 10px 0px 10px ;
                 color: whitesmoke;
                 font-size: 24px;
                 font-family: monospace;
                 text-align: right;
-                margin: 32px auto;
+                margin: 10px auto;
             `;
+        });
+        [this.binaryDisplayLabel, this.binaryDisplay, this.signedDisplayLabel, this.signedDisplay, this.unsignedDisplayLabel, this.unsignedDisplay].forEach((el) => {
             this.conversionContainer.appendChild(el);
         });
-
         // Build main components
         this.displayContainer.appendChild(this.primaryDisplay);
-        this.displayContainer.appendChild(this.secondaryDisplay);
 
         this.buttonsContainer.appendChild(this.btnRow1);
         this.buttonsContainer.appendChild(this.btnRow2);
@@ -215,19 +222,66 @@ export class Model{
         this.canvas.appendChild(this.buttonsContainer);
         this.canvas.appendChild(this.conversionContainer);
 
-        // // Set IDs for functions linked to each button
-        // clearBtn.setAttribute("id", "clearBtn");
-        // enterBtn.setAttribute("id", "enterBtn");
-        // zeroBtn.setAttribute("id", "zeroBtn");
-        // oneBtn.setAttribute("id", "oneBtn");
-        // plusBtn.setAttribute("id", "plusBtn");
-        // minusBtn.setAttribute("id", "minusBtn");
-        // multBtn.setAttribute("id", "multBtn");
-        // divideBtn.setAttribute("id", "divideBtn");
-
     }
+
+
     getCanvas(){
+        
         return this.canvas;
+    }
+
+    toggleBitsSelector(el){
+        this.bitsSet.checked = false;
+        this.bitsSet = el;
+        this.bitsSet.checked = true;
+    }
+    
+    setPrimaryDisplay(value){
+        this.primaryDisplay.style.fontSize = 
+        value.length > 16 ? "18px" : "24px";
+        this.primaryDisplay.textContent = value; 
+    }
+
+    toggleActiveOperator(operator, on){
+        switch(operator){
+            case "\u002B":
+                this.plusBtn.style.border = on ? `2px solid ${this.enterColor}` : "2px solid lightgrey";
+                break;
+            case "\u2212":
+                this.minusBtn.style.border = on ? `2px solid ${this.enterColor}` : "2px solid lightgrey";
+                break;
+            case "\u00D7":
+                this.multBtn.style.border = on ? `2px solid ${this.enterColor}` : "2px solid lightgrey";
+                break;
+            case "\u00F7":
+                this.divideBtn.style.border = on ? `2px solid ${this.enterColor}` : "2px solid lightgrey";
+                break;
+            default:
+                this.plusBtn.style.border =
+                this.minusBtn.style.border = 
+                this.multBtn.style.border = 
+                this.divideBtn.style.border = 
+                "2px solid lightgrey";
+        }
+    }
+  
+
+    setConversions(binary, signed, unsigned){
+        this.binaryDisplay.textContent = binary;
+        this.signedDisplay.textContent = signed;
+        this.unsignedDisplay.textContent = unsigned;
+    }
+
+    clearConversions(){
+        this.binaryDisplay.textContent =
+        this.signedDisplay.textContent =
+        this.unsignedDisplay.textContent =
+        "";
+    }
+
+    reset(){
+        this.clearConversions();
+        this.setPrimaryDisplay("");
     }
     toggleLight(){}
     toggleDark(){}

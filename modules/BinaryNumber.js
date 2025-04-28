@@ -14,25 +14,34 @@ export class BinaryNumber{
         this.str = binaryString;    
     }
     
-
+    binaryToUnsignedNumber(){
+        if(!this.str){return "";}
+        return Number.parseInt(this.str, 2);
+    }
     binaryToSignedNumber(bits){
-        if(!this.str){throw Error("this.str is null");}
-        if(this.str.startsWith("0")){return Number.parseInt(str, 2);}
+        if(!this.str){return "";}
+        if(this.str.startsWith("0")){return Number.parseInt(this.str, 2);}
         let negative = -(2**bits)
-        let positive = binaryToUnsignedNumber(this.str.slice(1));
+        let positive = Number.parseInt(this.str.slice(1),2);
         return negative + positive;
     }
 
-    binaryToUnsignedNumber(){
-        if(!this.str){throw Error("this.str is null");}
-        return Number.parseInt(this.str, 2);
-    }
+ 
 
     setStr(binaryString){
         this.str = binaryString;
     }
     getStr(){
         return this.str;
+    }
+    pushBit(bit){
+        this.str += bit;
+    }
+    removeBit(){
+        this.str.slice(-1);
+    }
+    getStringLength(){
+        return this.str.length;
     }
     
 }

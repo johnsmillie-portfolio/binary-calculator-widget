@@ -3,9 +3,9 @@ import { BinaryNumber } from "./BinaryNumber.js";
 
 export class Operations{
     constructor(){
+
         this.bits = 8;
-        this.operator = "";
-        this.signed = true;
+        this.operator = ""; 
         this.primaryOperand = new BinaryNumber("");
         this.secondaryOperand = new BinaryNumber("");
     }
@@ -22,23 +22,29 @@ export class Operations{
         this.operator = operator;
     }
 
-    toggleSigned(){
-        this.signed = !this.signed;
-    }
-
     setPrimaryOperand(str){
         this.primaryOperand.setStr(str);
     }
-
-    setSecondaryOperand(str){
-        this.secondaryOperand
+    setSecondaryOperand(){
+        this.secondaryOperand.setStr(this.primaryOperand.getStr());
+        this.primaryOperand.setStr("");
     }
+
+    getPrimaryOperandLength(){
+        return this.primaryOperand.getStringLength();
+    }
+
+    reset(){
+        this.operator = "";
+        this.primaryOperand.setStr("");
+        this.secondaryOperand.setStr("");
+    }
+
 
     operate(){
         let result = 0;
         const p = this.primaryOperand.binaryToUnsignedNumber();
         const s = this.secondaryOperand.binaryToUnsignedNumber();
-
         switch(this.operator){
             case "+":
                 result = p + s;
@@ -52,6 +58,8 @@ export class Operations{
             case "\u00F7":
                 // integer division
                 result = Math.floor(p / s).toFixed(0);
+            default:
+
         }
         result &= this.getBitMask;
         logOperation(); 
