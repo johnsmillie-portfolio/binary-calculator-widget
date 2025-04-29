@@ -22,7 +22,8 @@ export class BinaryNumber{
         if(!this.str){return "";}
         if(this.str.startsWith("0")){return Number.parseInt(this.str, 2);}
         let negative = -(2**bits)
-        let positive = Number.parseInt(this.str.slice(1),2);
+        let x = this.str.slice(1);
+        let positive = Number.parseInt(x,2);
         return negative + positive;
     }
 

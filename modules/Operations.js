@@ -6,64 +6,95 @@ export class Operations{
 
         this.bits = 8;
         this.operator = ""; 
-        this.primaryOperand = new BinaryNumber("");
-        this.secondaryOperand = new BinaryNumber("");
+        this.mutableOperand = new BinaryNumber(String(""));
+        this.constOperand = new BinaryNumber(String(""));
+    }
+
+    hasMutable(){
+        return !!(this.mutableOperand.getStr())  
+    }
+
+    hasConstant(){
+        return !!(this.constOperand.getStr());
+    }
+
+    hasOperator(){
+        return !!(this.operator);
     }
 
     getBitMask(){
-        return (2**this.bits-1).toString(2);
+        return (2**this.bits-1);
     }
-    
+
     setBits(bits){
         this.bits = bits;
+    }
+
+    padBinaryStings(){
+        this.hasMutable() &&
+        this.setMutableOperand(this.mutableOperand.getStr().padStart(this.bits,"0"));
+        
+        this.hasConstant() &&
+        this.setConstOperand(this.constOperand.getStr().padStart(this.bits, "0"));
     }
 
     setOperator(operator){
         this.operator = operator;
     }
 
-    setPrimaryOperand(str){
-        this.primaryOperand.setStr(str);
-    }
-    setSecondaryOperand(){
-        this.secondaryOperand.setStr(this.primaryOperand.getStr());
-        this.primaryOperand.setStr("");
+    setMutableOperand(str){
+        this.mutableOperand.setStr(str);
     }
 
-    getPrimaryOperandLength(){
-        return this.primaryOperand.getStringLength();
+    setConstOperand(str){
+        this.constOperand.setStr(str);
+        //this.mutableOperand.setStr("");
+    }
+
+    transferOperands(){
+        this.setConstOperand(this.mutableOperand.getStr());
+        this.setMutableOperand("");
+    }
+
+    getMutableOperandLength(){
+        return this.mutableOperand.getStringLength();
     }
 
     reset(){
         this.operator = "";
-        this.primaryOperand.setStr("");
-        this.secondaryOperand.setStr("");
+        this.mutableOperand.setStr("");
+        this.constOperand.setStr("");
     }
 
-
     operate(){
-        let result = 0;
-        const p = this.primaryOperand.binaryToUnsignedNumber();
-        const s = this.secondaryOperand.binaryToUnsignedNumber();
-        switch(this.operator){
-            case "+":
-                result = p + s;
-                break;
-            case "-":
-                result = p - s;
-                break;
-            case "x":;
-                result = p * s;
-                break
-            case "\u00F7":
-                // integer division
-                result = Math.floor(p / s).toFixed(0);
-            default:
 
+        if(this.hasMutable() && this.hasConstant()){
+            let result = 0;
+            const p = this.mutableOperand.binaryToUnsignedNumber();
+            const s = this.constOperand.binaryToUnsignedNumber();
+            switch(this.operator){
+                case `\u002B`:
+                    result = p + s;
+                    break;
+                case `\u2212`:
+                    result = s - p;
+                    break;
+                case `\u00D7`:;
+                    result = p * s;
+                    break
+                case `\u00F7`:
+                    // integer division
+                    result = Math.floor(s / p).toFixed(0);
+                default:     
+            }
+
+            // truncate any extra bits
+            result &= this.getBitMask();
+            this.setConstOperand(result.toString(2).padStart(this.bits, "0"));
+            this.setMutableOperand("");
         }
-        result &= this.getBitMask;
-        logOperation(); 
-        return result.toString(2);
+     
+      
     }
  
 } 

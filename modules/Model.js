@@ -226,7 +226,6 @@ export class Model{
 
 
     getCanvas(){
-        
         return this.canvas;
     }
 
@@ -243,18 +242,23 @@ export class Model{
     }
 
     toggleActiveOperator(operator, on){
+        this.plusBtn.style.border =
+        this.minusBtn.style.border = 
+        this.multBtn.style.border = 
+        this.divideBtn.style.border = 
+        "2px solid lightgrey";
         switch(operator){
             case "\u002B":
-                this.plusBtn.style.border = on ? `2px solid ${this.enterColor}` : "2px solid lightgrey";
+                this.plusBtn.style.border = `2px solid ${this.enterColor}`; 
                 break;
             case "\u2212":
-                this.minusBtn.style.border = on ? `2px solid ${this.enterColor}` : "2px solid lightgrey";
+                this.minusBtn.style.border = `2px solid ${this.enterColor}`; 
                 break;
             case "\u00D7":
-                this.multBtn.style.border = on ? `2px solid ${this.enterColor}` : "2px solid lightgrey";
+                this.multBtn.style.border = `2px solid ${this.enterColor}`; 
                 break;
             case "\u00F7":
-                this.divideBtn.style.border = on ? `2px solid ${this.enterColor}` : "2px solid lightgrey";
+                this.divideBtn.style.border = `2px solid ${this.enterColor}`; 
                 break;
             default:
                 this.plusBtn.style.border =
@@ -267,8 +271,11 @@ export class Model{
   
 
     setConversions(binary, signed, unsigned){
+        this.binaryDisplay.style.fontSize = binary.length > 16 ? "18px" : "24px";
         this.binaryDisplay.textContent = binary;
+        this.signedDisplay.style.fontSize = signed.length > 16 ? "18px" : "24px";
         this.signedDisplay.textContent = signed;
+        this.unsignedDisplay.style.fontSize = unsigned.length > 16 ? "18px" : "24px";
         this.unsignedDisplay.textContent = unsigned;
     }
 

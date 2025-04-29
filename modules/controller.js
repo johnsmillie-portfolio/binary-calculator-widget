@@ -16,81 +16,94 @@ function clickHelper(e){
     //console.table()
     switch(e.target.id){
         case "operand":
-            operations.getPrimaryOperandLength() < operations.bits
-               && operations.primaryOperand.pushBit(e.target.textContent);
+            operations.getMutableOperandLength() < operations.bits
+            && operations.mutableOperand.pushBit(e.target.textContent);
+            updateInputDisplay();
             break;
         case "clear":
-            clear()
+            clear();
             break;
         case "operation":
-            operations.setOperator(e.target.textContent);
-            if(operations.primaryOperand.getStr() 
-                && operations.secondaryOperand.getStr()
-                && operations.operate());
-            else if(operations.primaryOperand.getStr()
-                && operations.operator === "="
-                && convert());                
-            else if(operations.primaryOperand.getStr()){
-                convert();
-                operations.setSecondaryOperand();
-                model.toggleActiveOperator(operations.operator, true);
-               
-            }
+            operations.padBinaryStings();
+            compute(e.target.textContent);
+            model.toggleActiveOperator(operations.operator, true);
+            convert();
+            updateInputDisplay();
+     
+
+            // if "=" and hasP and hasC && hasO -> operate reset 
+            // if "=" and hasP and hasC and !hasO -> transferO x
+            // if "=" and hasP and !hasC -> transferO 
+            // if "=" and !hasP and hasC -> do nothing x
+            // if "=" and !hasP and !hasC -> do nothing x
+            
+            // if "+" and hasP and hasC and hasO -> operate x
+            // if "+" and hasP and hasC and !hasO -> set new operand x
+            // if "+" and hasP and !hasC -> transferO and set operand
+            // if "+" and !hasP and hasC -> setOperand 
+            // if "+" and !hasP and !hasC -> do nothing x
+
+           
+           
             break;
         default:
            console.log("Unknown Selection Triggered");
     }
-    updateDisplay();
 }
 
-// set the display boxes to the current values
-// this is called after every event following changes to data
-function updateDisplay(){
-    model.setPrimaryDisplay(operations.primaryOperand.getStr());
-    // model.setConversions(
-    //     operations.primaryOperand.getStr(), 
-    //     operations.primaryOperand.binaryToSignedNumber(operations.bits), 
-    //     operations.primaryOperand.binaryToUnsignedNumber()
-    // );
+
+
+function updateInputDisplay(){
+    model.setPrimaryDisplay(operations.mutableOperand.getStr());
+}
+
+function compute(input){
+    let isEnter = input === "=";
+    let hM = operations.hasMutable();
+    let hC = operations.hasConstant();
+    let hO = operations.hasOperator();
+
+    if((!hM && !hC) || !hM && hC && isEnter){return;}
+    if(hM && hC && hO){ 
+        operations.operate();
+        operations.setOperator(isEnter ? "" : input);
+    }
+    else if ((hM && hC && !hO) || (hM && !hC)) {
+        !isEnter && operations.setOperator(input);
+        operations.transferOperands()
+    }
+    else if(!hM && hC && !isEnter){
+        operations.setOperator(input);
+    }
 }
 
 function clear(){
     operations.reset();
+    updateInputDisplay();
     model.toggleActiveOperator(operations.operator, false);
     model.clearConversions();
 }
 
 function convert(){
     model.setConversions(
-        operations.primaryOperand.getStr(), 
-        operations.primaryOperand.binaryToSignedNumber(operations.bits), 
-        operations.primaryOperand.binaryToUnsignedNumber()
+        operations.constOperand.getStr(), 
+        operations.constOperand.binaryToSignedNumber(operations.bits), 
+        operations.constOperand.binaryToUnsignedNumber()
     );
 }
 
 // TODO 
 /**
- * decide on display behavior when using operators (started)
- *      L> it's using the binary display
- * operate() function
- * doing mulitple conversions back to back
- * theory: pressing any operator or the equals sign will always update the conversion display
+    - 
+    - start testing the functions
+    -  backspace
+    - toggle light dark
+    - keyboard input
+
  * data flow
  * model flow
- * backspace
- * toggle light dark
+ *
  */
-
-/*
-both are set and equals
-both are set and operator
-just primary is set and equals (convert)
-just primary set and operator 
-neither are set
-*/
-
-
-   
 
 
 
