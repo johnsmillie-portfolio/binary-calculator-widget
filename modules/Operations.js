@@ -30,7 +30,7 @@ export class Operations{
         this.bits = bits;
     }
 
-    padBinaryStings(){
+    padBinaryStrings(){
         this.hasMutable() &&
         this.setMutableOperand(this.mutableOperand.getStr().padStart(this.bits,"0"));
         
@@ -48,7 +48,6 @@ export class Operations{
 
     setConstOperand(str){
         this.constOperand.setStr(str);
-        //this.mutableOperand.setStr("");
     }
 
     transferOperands(){

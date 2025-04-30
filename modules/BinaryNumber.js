@@ -21,7 +21,7 @@ export class BinaryNumber{
     binaryToSignedNumber(bits){
         if(!this.str){return "";}
         if(this.str.startsWith("0")){return Number.parseInt(this.str, 2);}
-        let negative = -(2**bits)
+        let negative = -(2**(bits-1))
         let x = this.str.slice(1);
         let positive = Number.parseInt(x,2);
         return negative + positive;

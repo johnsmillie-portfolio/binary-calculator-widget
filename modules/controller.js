@@ -24,7 +24,7 @@ function clickHelper(e){
             clear();
             break;
         case "operation":
-            operations.padBinaryStings();
+            operations.padBinaryStrings();
             compute(e.target.textContent);
             model.toggleActiveOperator(operations.operator, true);
             convert();
