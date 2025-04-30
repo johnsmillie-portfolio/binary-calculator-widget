@@ -2,12 +2,11 @@ import { BinaryNumber } from "./BinaryNumber.js";
 
 
 export class Operations{
-    constructor(){
-
-        this.bits = 8;
-        this.operator = ""; 
-        this.mutableOperand = new BinaryNumber(String(""));
-        this.constOperand = new BinaryNumber(String(""));
+    constructor(bits = 8, operator = "", str1 = "", str2 = "" ){
+        this.bits = bits;
+        this.operator = operator; 
+        this.mutableOperand = new BinaryNumber(str1);
+        this.constOperand = new BinaryNumber(str2);
     }
 
     hasMutable(){
@@ -22,14 +21,6 @@ export class Operations{
         return !!(this.operator);
     }
 
-    getBitMask(){
-        return (2**this.bits-1);
-    }
-
-    setBits(bits){
-        this.bits = bits;
-    }
-
     padBinaryStrings(){
         this.hasMutable() &&
         this.setMutableOperand(this.mutableOperand.getStr().padStart(this.bits,"0"));
@@ -38,6 +29,13 @@ export class Operations{
         this.setConstOperand(this.constOperand.getStr().padStart(this.bits, "0"));
     }
 
+    getBitMask(){
+        return (2**this.bits-1);
+    }
+
+    setBits(bits){
+        this.bits = bits;
+    }
     setOperator(operator){
         this.operator = operator;
     }
@@ -66,7 +64,6 @@ export class Operations{
     }
 
     operate(){
-
         if(this.hasMutable() && this.hasConstant()){
             let result = 0;
             const p = this.mutableOperand.binaryToUnsignedNumber();

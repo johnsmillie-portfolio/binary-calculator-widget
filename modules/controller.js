@@ -13,7 +13,6 @@ document.addEventListener("click", (e) => {
 })
 
 function clickHelper(e){
-    //console.table()
     switch(e.target.id){
         case "operand":
             operations.getMutableOperandLength() < operations.bits
@@ -29,28 +28,11 @@ function clickHelper(e){
             model.toggleActiveOperator(operations.operator, true);
             convert();
             updateInputDisplay();
-     
-
-            // if "=" and hasP and hasC && hasO -> operate reset 
-            // if "=" and hasP and hasC and !hasO -> transferO x
-            // if "=" and hasP and !hasC -> transferO 
-            // if "=" and !hasP and hasC -> do nothing x
-            // if "=" and !hasP and !hasC -> do nothing x
-            
-            // if "+" and hasP and hasC and hasO -> operate x
-            // if "+" and hasP and hasC and !hasO -> set new operand x
-            // if "+" and hasP and !hasC -> transferO and set operand
-            // if "+" and !hasP and hasC -> setOperand 
-            // if "+" and !hasP and !hasC -> do nothing x
-
-           
-           
             break;
         default:
            console.log("Unknown Selection Triggered");
     }
 }
-
 
 
 function updateInputDisplay(){
@@ -106,6 +88,19 @@ function convert(){
  */
 
 
+// if "=" and hasP and hasC && hasO -> operate reset 
+// if "=" and hasP and hasC and !hasO -> transferO x
+// if "=" and hasP and !hasC -> transferO 
+// if "=" and !hasP and hasC -> do nothing x
+// if "=" and !hasP and !hasC -> do nothing x
+
+// if "+" and hasP and hasC and hasO -> operate x
+// if "+" and hasP and hasC and !hasO -> set new operand x
+// if "+" and hasP and !hasC -> transferO and set operand
+// if "+" and !hasP and hasC -> setOperand 
+// if "+" and !hasP and !hasC -> do nothing x
+
+           
 
 
 export {model}
