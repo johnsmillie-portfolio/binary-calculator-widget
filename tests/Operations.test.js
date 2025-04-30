@@ -94,12 +94,12 @@ describe("operate(): GOOD CASES", () => {
     ops.operate();
     expect(ops.constOperand.getStr()).toBe("0000000000110000");
   })
-  test("32 bits: 01010100010101000101010001010100\n + 00100101001001010010010100100101", () => {
+  test("32 bits: 01010100010101000101010001010100 + 00100101001001010010010100100101", () => {
     ops = new Operations(32, "+", "01010100010101000101010001010100", "00100101001001010010010100100101");
     ops.operate();
     expect(ops.constOperand.getStr()).toBe("01111001011110010111100101111001");
   })
-  test("32 bits: 01110110011101100111011001110110\n - 00011100000111000001110000011100", () => {
+  test("32 bits: 01110110011101100111011001110110 - 00011100000111000001110000011100", () => {
     ops = new Operations(32, "\u2212", "00011100000111000001110000011100", "01110110011101100111011001110110");
     ops.operate();
     expect(ops.constOperand.getStr()).toBe("01011010010110100101101001011010");
@@ -114,4 +114,63 @@ describe("operate(): GOOD CASES", () => {
     ops.operate();
     expect(ops.constOperand.getStr()).toBe("00000000001100000000000000110000");
  })
+
 })
+ // TODO 
+ /**
+  *  bad operate tests ->  truncated addition/mult, integer division
+  */
+
+ describe("operate(): Negative results (represented by 2s complement):", () => {
+  test("4 bits: 0100 - 0110", () => {
+    ops = new Operations(4, `\u2212`, "0110", "0100");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("1110");
+  })
+  test("8 bits: 00011100 - 01100100", () => {
+    ops = new Operations(8, "\u2212", "01100100", "00011100");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("10111000");
+  })
+  test("16 bits: 0001000100100111 - 0100101001010011", () => {
+    ops = new Operations(16, "\u2212", "0100101001010011", "0001000100100111");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("1100011011010100");
+  })
+  test("32 bits: 00001010000110100010111010111001 - 00110000111010011010001101001111", () => {
+    ops = new Operations(32, "\u2212", "00110000111010011010001101001111", "00001010000110100010111010111001");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("11011001001100001000101101101010");
+  })
+ })
+
+ describe("operate(): Truncated Results", () => {
+  test("4 bits: 1100 + 0110", () => {
+    ops = new Operations(4, "+", "1100", "0110");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("0010")
+  })
+  test("8 bits: 00010100 * 00100101", () => {
+    ops = new Operations(8, "\u00D7", "00010100", "00100101");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("11100100");
+  })
+  test("16 bits: 1101010001010100 + 0110010100100101", () => {
+    ops = new Operations(16, "+", "1101010001010100", "0110010100100101");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("0011100101111001");
+  })
+  test("32 bits: 00010100010101000101010001010100 * 00000101001001010010010100100101", () => {
+    ops = new Operations(32, "\u00D7", "00010100010101000101010001010100", "01000101001001010010010100100101");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("11110100100001000101010001000000");
+  })
+})
+
+//  describe("Truncated results (to fit the bit size):", () => {
+
+//  })
+
+//  describe("Integer division:", () => {
+
+//  })
