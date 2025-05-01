@@ -116,11 +116,7 @@ describe("operate(): GOOD CASES", () => {
  })
 
 })
- // TODO 
- /**
-  *  bad operate tests ->  truncated addition/mult, integer division
-  */
-
+ 
  describe("operate(): Negative results (represented by 2s complement):", () => {
   test("4 bits: 0100 - 0110", () => {
     ops = new Operations(4, `\u2212`, "0110", "0100");
@@ -167,10 +163,25 @@ describe("operate(): GOOD CASES", () => {
   })
 })
 
-//  describe("Truncated results (to fit the bit size):", () => {
-
-//  })
-
-//  describe("Integer division:", () => {
-
-//  })
+ describe("Integer division:", () => {
+  test("4 bits: 1000 / 0011", () => {
+    ops = new Operations(4, "\u00F7", "0011", "1000");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("0010");
+  })
+  test("8 bits: 10000110 / 00010011", () => {
+    ops = new Operations(8, "\u00F7", "00010011", "10000110");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("00000111");
+  })
+  test("16 bits: 1010111010101000 / 0000011111010011", () => {
+    ops = new Operations(16, "\u00F7", "0000011111010011", "1010111010101000");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("0000000000010110");
+  })
+  test("32 bits: 10001101001011110000101011001000 / 00000000000010110010110011000011", () => {
+    ops = new Operations(32, "\u00F7", "00000000000010110010110011000011", "10001101001011110000101011001000");
+    ops.operate();
+    expect(ops.constOperand.getStr()).toBe("00000000000000000000110010100010");
+  })
+ })

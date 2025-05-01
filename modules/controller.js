@@ -76,8 +76,6 @@ function convert(){
 
 // TODO 
 /**
-    - 
-    - start testing the functions
     -  backspace
     - toggle light dark
     - keyboard input
