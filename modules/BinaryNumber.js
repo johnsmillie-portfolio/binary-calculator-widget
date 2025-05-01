@@ -39,7 +39,7 @@ export class BinaryNumber {
         this.str += bit;
     }
     removeBit() {
-        this.str.slice(-1);
+        this.str = this.str.slice(0,-1);
     }
     getStringLength() {
         return this.str.length;

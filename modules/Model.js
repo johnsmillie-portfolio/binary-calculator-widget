@@ -25,7 +25,7 @@ export class Model{
         this.canvas.style.cssText = `
             background-color: ${this.canvasBackgroundDark};
             border-radius: 7px;
-            width: 400px;
+            width: 425px;
             height: 550px;
             font-family: sans-serif;
             font-size: 16px;
@@ -90,6 +90,10 @@ export class Model{
         this.displayContainer.className = "displayContainer";
         this.displayContainer.style.cssText = `
             width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+              background-color: ${this.displayBackgroundDark};
         `; 
 
     // Primary digit display element
@@ -107,10 +111,24 @@ export class Model{
             justify-content: right;
             margin: auto;
             padding: 5px;
+            width: 100%;
             `;
 
 
-
+    this.backspace = document.createElement("div");
+    this.backspace.id = "backspace";
+    this.backspace.style.cssText = `
+        width: 20px;
+        height: 40px;
+        font-size: 24px;
+        background-color: inherit;
+        padding: 10px 2px 5px 0px;
+        cursor: pointer;
+        
+    `;
+    this.backspace.textContent = `\u21E6`
+    
+  
     // Container for the button rows
         this.buttonsContainer = document.createElement("div");
         this.buttonsContainer.className = "buttonsContainer";
@@ -213,6 +231,7 @@ export class Model{
         });
         // Build main components
         this.displayContainer.appendChild(this.primaryDisplay);
+        this.displayContainer.appendChild(this.backspace);
 
         this.buttonsContainer.appendChild(this.btnRow1);
         this.buttonsContainer.appendChild(this.btnRow2);
@@ -289,6 +308,13 @@ export class Model{
     reset(){
         this.clearConversions();
         this.setPrimaryDisplay("");
+    }
+
+    flashBackspace(){
+        this.backspace.style.backgroundColor =  "grey";
+        setTimeout(() => {
+            this.backspace.style.backgroundColor = this.displayBackgroundDark;
+        }, 100);
     }
     toggleLight(){}
     toggleDark(){}

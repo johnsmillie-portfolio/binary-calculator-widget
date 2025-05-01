@@ -22,6 +22,10 @@ function clickHelper(e){
         case "clear":
             clear();
             break;
+        case "backspace":
+            backspace();
+            updateInputDisplay();
+            break;
         case "operation":
             operations.padBinaryStrings();
             compute(e.target.textContent);
@@ -59,6 +63,13 @@ function compute(input){
     }
 }
 
+function backspace(){
+    if(operations.getMutableOperandLength() > 0)
+        {operations.mutableOperand.removeBit();
+            model.flashBackspace();
+        }
+}
+
 function clear(){
     operations.reset();
     updateInputDisplay();
@@ -74,9 +85,10 @@ function convert(){
     );
 }
 
+
+
 // TODO 
 /**
-    -  backspace
     - toggle light dark
     - keyboard input
 
