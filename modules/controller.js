@@ -10,14 +10,14 @@ document.addEventListener("click", (e) => {
         return;
     }
  
-    clickHelper(e);
+    clickHelper(e.target.id, e.target.textContent);
 })
 
-function clickHelper(e){
-    switch(e.target.id){
+function clickHelper(id, text){
+    switch(id){
         case "operand":
             operations.getMutableOperandLength() < operations.bits
-            && operations.mutableOperand.pushBit(e.target.textContent);
+            && operations.mutableOperand.pushBit(text);
             updateInputDisplay();
             break;
         case "clear":
@@ -29,7 +29,7 @@ function clickHelper(e){
             break;
         case "operation":
             operations.padBinaryStrings();
-            compute(e.target.textContent);
+            compute(text);
             model.toggleActiveOperator(operations.operator, true);
             convert();
             updateInputDisplay();
@@ -39,6 +39,48 @@ function clickHelper(e){
     }
 }
 
+
+document.addEventListener("keydown", (e) => {
+    e.preventDefault();
+    switch(e.key){
+        case "0":
+        case "1":
+            operations.getMutableOperandLength() < operations.bits
+            && operations.mutableOperand.pushBit(e.key);
+            updateInputDisplay();
+            break;
+        case "Backspace":
+            clickHelper("backspace");
+            break;
+        case `+`:
+        case `-`:
+        case `*`:
+        case `/`: 
+        case `=`:
+        case "Enter":
+            clickHelper("operation", extractKey(e.key));
+            document.body.focus();
+            break;
+
+        
+    }
+})
+
+function extractKey(key){
+    switch(key){
+        case "+":
+            return `\u002B`;
+        case "-":
+            return `\u2212`;
+        case "*":
+            return `\u00D7`;
+        case "/":
+            return `\u00F7`;
+        case "=":
+        case "Enter":
+            return "=";
+    }
+}
 
 function updateInputDisplay(){
     model.setPrimaryDisplay(operations.mutableOperand.getStr());
@@ -98,17 +140,10 @@ function switchRadio(newBits){
 // TODO 
 /**
     - toggle light dark
-    - keyboard input
-    - radio buttons *
-    - toggle button
-    - 
-
- * data flow
- * model flow
  *
  */
 
-
+// Logic for compute()
 // if "=" and hasP and hasC && hasO -> operate reset 
 // if "=" and hasP and hasC and !hasO -> transferO x
 // if "=" and hasP and !hasC -> transferO 
