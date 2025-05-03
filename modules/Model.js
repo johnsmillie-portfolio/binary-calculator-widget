@@ -37,21 +37,14 @@ export class Model{
             boxShadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.25);
             `;
    
-    this.selectorsContainer = document.createElement("div");
-    this.selectorsContainer.className = "selectorsContainer";
-    this.selectorsContainer.style.cssText = `
-        display: flex;
-        width: 89%;
-        justify-content: space-between;
-        align-items: center;
-    `;      
+    
     // Bits Button Container
     this.bitsSelectorContainer = document.createElement("div");
     this.bitsSelectorContainer.className = "bitsSelectorContainer";
     this.bitsSelectorContainer.style.cssText = `
         display: flex;
         justify-content: space-evenly;
-        width: 75%;
+        width: 85%;
         font-size: 16px;
     `;
     // Label for bits selection
@@ -89,18 +82,6 @@ export class Model{
     [this.label1, this.radio1, this.label2, this.radio2, this.label3, this.radio3, this.label4, this.radio4].forEach((el) => {
         this.bitsSelectorContainer.appendChild(el);
     });
-
-
-    this.contrastToggle = document.createElement("div");
-    this.contrastToggle.id = "contrastToggle";
-    this.contrastToggle.style.cssText = `
-        background-color: blue;
-        color: white;
-        width: 20%;
-    `;
-    this.contrastToggle.textContent = "hello";
-
-
 
 
     // Diplays container
@@ -162,13 +143,13 @@ export class Model{
             x.id = el;
             x.style.cssText = `
                  border: solid 2px lightgrey;
-                 border-radius: 12px;
-                 width: 55px;
+                 border-radius: 11px;
+                 width: 80px;
                  height: 55px;
                  color: whitesmoke;
                  font-family: Helvetica;
                  font-size: 24px;
-                 margin: 6px 12px;
+                 margin: 6px 6px;
                  cursor: pointer;
                  `;
             return x;
@@ -247,8 +228,7 @@ export class Model{
             this.conversionContainer.appendChild(el);
         });
 
-        this.selectorsContainer.appendChild(this.bitsSelectorContainer);
-        this.selectorsContainer.appendChild(this.contrastToggle);
+        
         // Build main components
         this.displayContainer.appendChild(this.primaryDisplay);
         this.displayContainer.appendChild(this.backspace);
@@ -256,7 +236,7 @@ export class Model{
         this.buttonsContainer.appendChild(this.btnRow1);
         this.buttonsContainer.appendChild(this.btnRow2);
        
-        this.canvas.appendChild(this.selectorsContainer);
+        this.canvas.appendChild(this.bitsSelectorContainer);
         this.canvas.appendChild(this.displayContainer);
         this.canvas.appendChild(this.buttonsContainer);
         this.canvas.appendChild(this.conversionContainer);
