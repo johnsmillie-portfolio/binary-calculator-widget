@@ -2,7 +2,7 @@ import { BinaryNumber } from "./BinaryNumber.js";
 
 
 export class Operations {
-    constructor(bits = 32, operator = "", str1 = "", str2 = "") {
+    constructor(bits = 4, operator = "", str1 = "", str2 = "") {
         this.bits = bits;
         this.operator = operator;
         this.mutableOperand = new BinaryNumber(str1);

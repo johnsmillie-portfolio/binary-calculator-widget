@@ -6,9 +6,10 @@ const model = new Model();
 
 document.addEventListener("click", (e) => {
     if(e.target.className === "bits"){
-        operations.setBits(e.target.id);
+        switchRadio(e.target.id);        
         return;
     }
+ 
     clickHelper(e);
 })
 
@@ -85,12 +86,22 @@ function convert(){
     );
 }
 
+function switchRadio(newBits){
+    model.toggleRadioButtons(operations.bits, newBits);
+    operations.setBits(newBits);
+    clear();
+}
+
+
 
 
 // TODO 
 /**
     - toggle light dark
     - keyboard input
+    - radio buttons *
+    - toggle button
+    - 
 
  * data flow
  * model flow

@@ -37,15 +37,22 @@ export class Model{
             boxShadow: 4px 4px 10px 0 rgba(0, 0, 0, 0.25);
             `;
    
-            
+    this.selectorsContainer = document.createElement("div");
+    this.selectorsContainer.className = "selectorsContainer";
+    this.selectorsContainer.style.cssText = `
+        display: flex;
+        width: 89%;
+        justify-content: space-between;
+        align-items: center;
+    `;      
     // Bits Button Container
     this.bitsSelectorContainer = document.createElement("div");
     this.bitsSelectorContainer.className = "bitsSelectorContainer";
     this.bitsSelectorContainer.style.cssText = `
         display: flex;
         justify-content: space-evenly;
-        width: 90%;
-           font-size: 16px;
+        width: 75%;
+        font-size: 16px;
     `;
     // Label for bits selection
     this.bitsLabel = document.createElement("div");
@@ -70,31 +77,42 @@ export class Model{
         el.className = "bits";
         el.id = x*=2;
         el.value = x;
-        el.addEventListener("click", () => {
-            this.toggleBitsSelector(el);
-        })
         return el;
     });
 
     // variables for radio button behavior
     this.radio1.checked = true;
-    this.bitsSet = this.radio1;
+  
+   
 
     // Model building sequence
     [this.label1, this.radio1, this.label2, this.radio2, this.label3, this.radio3, this.label4, this.radio4].forEach((el) => {
         this.bitsSelectorContainer.appendChild(el);
     });
 
+
+    this.contrastToggle = document.createElement("div");
+    this.contrastToggle.id = "contrastToggle";
+    this.contrastToggle.style.cssText = `
+        background-color: blue;
+        color: white;
+        width: 20%;
+    `;
+    this.contrastToggle.textContent = "hello";
+
+
+
+
     // Diplays container
-        this.displayContainer = document.createElement("div");
-        this.displayContainer.className = "displayContainer";
-        this.displayContainer.style.cssText = `
-            width: 90%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-              background-color: ${this.displayBackgroundDark};
-        `; 
+    this.displayContainer = document.createElement("div");
+    this.displayContainer.className = "displayContainer";
+    this.displayContainer.style.cssText = `
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+          background-color: ${this.displayBackgroundDark};
+    `; 
 
     // Primary digit display element
         this.primaryDisplay = document.createElement("div");
@@ -130,11 +148,10 @@ export class Model{
     
   
     // Container for the button rows
-        this.buttonsContainer = document.createElement("div");
-        this.buttonsContainer.className = "buttonsContainer";
-
-        this.btnRow1 = document.createElement("div");
-        this.btnRow2 = document.createElement("div");
+    this.buttonsContainer = document.createElement("div");
+    this.buttonsContainer.className = "buttonsContainer";
+    this.btnRow1 = document.createElement("div");
+    this.btnRow2 = document.createElement("div");
 
 
     // create the html button elements for the widget
@@ -217,7 +234,7 @@ export class Model{
             el.style.cssText = `
                 background-color: ${this.displayBackgroundDark};
                 border-radius: 3px;
-                height: 40px;
+                height: 40px;bitsSelectorContainer
                 padding: 10px 10px 0px 10px ;
                 color: whitesmoke;
                 font-size: 24px;
@@ -229,6 +246,9 @@ export class Model{
         [this.binaryDisplayLabel, this.binaryDisplay, this.signedDisplayLabel, this.signedDisplay, this.unsignedDisplayLabel, this.unsignedDisplay].forEach((el) => {
             this.conversionContainer.appendChild(el);
         });
+
+        this.selectorsContainer.appendChild(this.bitsSelectorContainer);
+        this.selectorsContainer.appendChild(this.contrastToggle);
         // Build main components
         this.displayContainer.appendChild(this.primaryDisplay);
         this.displayContainer.appendChild(this.backspace);
@@ -236,7 +256,7 @@ export class Model{
         this.buttonsContainer.appendChild(this.btnRow1);
         this.buttonsContainer.appendChild(this.btnRow2);
        
-        this.canvas.appendChild(this.bitsSelectorContainer);
+        this.canvas.appendChild(this.selectorsContainer);
         this.canvas.appendChild(this.displayContainer);
         this.canvas.appendChild(this.buttonsContainer);
         this.canvas.appendChild(this.conversionContainer);
@@ -246,12 +266,6 @@ export class Model{
 
     getCanvas(){
         return this.canvas;
-    }
-
-    toggleBitsSelector(el){
-        this.bitsSet.checked = false;
-        this.bitsSet = el;
-        this.bitsSet.checked = true;
     }
     
     setPrimaryDisplay(value){
@@ -315,6 +329,17 @@ export class Model{
         setTimeout(() => {
             this.backspace.style.backgroundColor = this.displayBackgroundDark;
         }, 100);
+    }
+
+    toggleRadioButtons(oldBits, newBits){
+        [this.radio1, this.radio2, this.radio3, this.radio4].forEach((el) => {
+            if(el.id == oldBits){
+                el.checked = false;
+            }
+            if(el.id == newBits){
+                el.checked = true;
+            }
+        })
     }
     toggleLight(){}
     toggleDark(){}
