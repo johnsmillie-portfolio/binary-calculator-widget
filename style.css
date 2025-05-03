@@ -4,13 +4,13 @@ body{
     margin: 0px;   
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
     color: white;
+    min-width: 800px;
 }
 .main{
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 500px;
-    min-width: 800px;
     padding: 48px;
 }
 
@@ -18,7 +18,7 @@ body{
     background-image: url("./img/hero.jpg");
     background-size: contain;
     padding: 25px 100px;
-    min-height: 200px;
+    min-height: 150px;
     display: flex;
     align-items: center;
 }
@@ -28,7 +28,7 @@ h1{
     padding: 15px;
     margin: auto;
     font-family: monospace;
-    font-size: 52px;
+    font-size: 50px;
     color: rgb(152, 250, 6);
     
 }
@@ -36,7 +36,8 @@ p{
     color: whitesmoke;
 }
 .about{
-    padding: 10px 100px;
+
+    margin: 25px 125px;
 }
 input[type="radio"]:checked {
     background-color: #e1a106;
