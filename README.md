@@ -1,5 +1,5 @@
 # Binary Calculator Widget
-**Hakerrank Challenge for the 10 Days of JavaScript**
+**Hackerrank Challenge for the 10 Days of JavaScript**
 
 > Live: https://binary-calculator-widget.vercel.app/
 
